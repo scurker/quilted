@@ -4,6 +4,8 @@
 
 # quilted
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/scurker/quilted.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/scurker/quilted.svg?branch=master)](https://travis-ci.org/scurker/quilted)
 [![Coverage Status](https://coveralls.io/repos/scurker/quilted/badge.svg?branch=master&service=github)](https://coveralls.io/github/scurker/quilted?branch=master)
 [![npm](https://img.shields.io/npm/v/quilted.svg?style=flat)](https://www.npmjs.com/package/quilted)
