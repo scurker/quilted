@@ -1,5 +1,7 @@
 <div align="center" markdown="1">
 
+![quilted logo](https://user-images.githubusercontent.com/1062039/35892723-4a4e70aa-0b70-11e8-90a8-082686146a1b.png)
+
 # quilted
 
 [![Build Status](https://travis-ci.org/scurker/quilted.svg?branch=master)](https://travis-ci.org/scurker/quilted)
