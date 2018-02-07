@@ -1,0 +1,11 @@
+*.sublime-project
+*.sublime-workspace
+node_modules/
+bower_components/
+reports/
+dist/
+bin/
+coverage/
+.nyc_output
+.flowconfig
+*.log

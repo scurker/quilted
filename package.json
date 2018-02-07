@@ -1,0 +1,75 @@
+{
+  "name": "quilted",
+  "version": "1.0.0-beta.1",
+  "description": "A css/js coverage tool for websites.",
+  "module": "dist/quilted.es.js",
+  "main": "dist/quilted.js",
+  "scripts": {
+    "build": "npm-run-all clean transpile",
+    "clean": "rm -rf dist/ bin/",
+    "coverage": "BABEL_ENV=test nyc ava ./test/",
+    "coverage:report": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint .",
+    "test": "BABEL_ENV=test ava test/*.js",
+    "transpile": "rollup -c rollup.config.js"
+  },
+  "bin": {
+    "quilted": "bin/cli.js"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "author": "Jason Wilson <jason@scurker.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scurker/quilted"
+  },
+  "bugs": {
+    "url": "https://github.com/scurker/quilted/issues"
+  },
+  "keywords": [
+    "code coverage",
+    "coverage",
+    "css coverage",
+    "js coverage",
+    "css code coverage",
+    "js code coverage"
+  ],
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "columnify": "^1.5.4",
+    "pretty-bytes": "^4.0.2",
+    "puppeteer": "^1.0.0",
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {
+    "@scurker/eslint-config": "^1.1.1",
+    "ava": "^0.25.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.17.0",
+    "http-server": "^0.11.1",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "rollup": "^0.55.3",
+    "rollup-plugin-babel": "^3.0.3",
+    "strip-ansi": "^4.0.0"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ]
+  },
+  "yargs": {
+    "boolean-negation": false
+  }
+}
