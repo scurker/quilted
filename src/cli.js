@@ -19,12 +19,18 @@ const _yargs = yargs.usage('\nUsage: $0 <url> [options]')
       describe: 'disables js code coverage',
       group: BASIC_OPTIONS
     },
-
-    // Puppeteer Options
     origin: {
       type: 'boolean',
       alias: 'o',
       describe: 'only cover same-origin assets',
+      group: PUPPETEER_OPTIONS
+    },
+
+    // Puppeteer Options
+    timeout: {
+      type: 'number',
+      alias: 't',
+      describe: 'maximum number of milliseconds to wait for the browser to start',
       group: PUPPETEER_OPTIONS
     },
     viewportWidth: {

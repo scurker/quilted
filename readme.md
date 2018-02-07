@@ -59,12 +59,14 @@ Basic options:
 
 Puppeteer options:
   --origin, -o            only cover same-origin assets                [boolean]
+  --timeout, -t           maximum number of milliseconds to wait for the browser
+                          to start                                      [number]
   --viewportWidth, --vw   sets viewport width for page render           [number]
   --viewportHeight, --vh  sets viewport height for page render          [number]
   --viewport, -V          sets viewport for page render i.e. 800x600    [string]
+  --userAgent, --ua       sets the user agent for the request           [string]
   --headers, -H           sets headers for the page request
                           example: $0 <url> -H "X-Header: 123"           [array]
-  --userAgent, --ua       sets the user agent for the request           [string]
 
 Options:
   --version, -v  Show version number                                   [boolean]
