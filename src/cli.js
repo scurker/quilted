@@ -23,7 +23,7 @@ const _yargs = yargs.usage('\nUsage: $0 <url> [options]')
       type: 'boolean',
       alias: 'o',
       describe: 'only cover same-origin assets',
-      group: PUPPETEER_OPTIONS
+      group: BASIC_OPTIONS
     },
 
     // Puppeteer Options

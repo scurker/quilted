@@ -54,11 +54,11 @@ $ quilted --help
 Usage: quilted <url> [options]
 
 Basic options:
-  --no-css  disables css code coverage                                 [boolean]
-  --no-js   disables js code coverage                                  [boolean]
+  --no-css      disables css code coverage                             [boolean]
+  --no-js       disables js code coverage                              [boolean]
+  --origin, -o  only cover same-origin assets                          [boolean]
 
 Puppeteer options:
-  --origin, -o            only cover same-origin assets                [boolean]
   --timeout, -t           maximum number of milliseconds to wait for the browser
                           to start                                      [number]
   --viewportWidth, --vw   sets viewport width for page render           [number]
