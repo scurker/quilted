@@ -8,7 +8,7 @@ const url = 'http://localhost:8080';
 var quilted;
 if(process.env.TRAVIS) {
   // Travis CI currently doesn't run Chrome headless in sandboxed mode
-  quilted = () => _quilted({ args: '--no-sandbox' });
+  quilted = url => _quilted(url, { args: '--no-sandbox' });
 } else {
   quilted = _quilted;
 }
