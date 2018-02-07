@@ -78,6 +78,13 @@ Options:
 | `js`      | Run js coverage.  | `true`  |
 | `css`     | Run css coverage. | `true`  |
 | `origin`  | Only cover requests from the same origin | `false`  |
+
+## Puppeteer Supported Options
+
+| Option    | Description       | Default |
+|-----------|-------------------|---------|
+| `args`    | [Chrome command line flags](https://peter.sh/experiments/chromium-command-line-switches/) | `null` |
+| `timeout` | [Maximum number of milliseconds to wait for the browser to start](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions) | `30000` |
 | `cookies` | [Set cookies for the page request.](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetcookiecookies) | `null` |
 | `headers` | [Set headers for the page request.](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#pagesetextrahttpheadersheaders) | `null` |
 | `userAgent` | Sets the user agent for the page request. | Default Chrome Headless User Agent String |

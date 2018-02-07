@@ -25,7 +25,8 @@ async function setPageOptions(page, options) {
 }
 
 export default async function(urlString, options = {}) {
-  const browser = await puppeteer.launch()
+  const { args, timeout } = options
+      , browser = await puppeteer.launch({ args, timeout })
       , page = await browser.newPage()
       , { coverage } = page
       , url = parse(urlString);

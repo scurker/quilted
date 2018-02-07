@@ -1,9 +1,17 @@
 import path from 'path';
 import server from 'http-server';
 import { test } from 'ava';
-import quilted from '../src/';
+import _quilted from '../src/';
 
 const url = 'http://localhost:8080';
+
+var quilted;
+if(process.env.TRAVIS) {
+  // Travis CI currently doesn't run Chrome headless in sandboxed mode
+  quilted = () => _quilted({ args: '--no-sandbox' });
+} else {
+  quilted = _quilted;
+}
 
 var httpServer;
 
