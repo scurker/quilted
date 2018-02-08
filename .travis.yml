@@ -1,19 +1,29 @@
 language: node_js
 node_js:
-  - 'node'
-  - 6
+- node
+- 6
 before_script:
-  - npm install -g coveralls
+- npm install -g coveralls
 script:
-  - npm run lint
-  - npm run build
-  - npm run test
+- npm run lint
+- npm run build
+- npm run test
 addons:
   chrome: stable
 sudo: false
 cache:
   directories:
-    - node_modules
+  - node_modules
 after_success:
-  - npm run coverage
-  - npm run coverage:report
+- npm run coverage
+- npm run coverage:report
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email:
+    secure: NsZySQsj7H4gSKRZOkventvwaoUCbuNq1ZMRy5nuWjoIrIMrQqUxQLcISJLmVkn3qCr5dqPcMSKe8+K2D/hkujQ1ooxg7EYR/tNOKxq1u4OAMjxDJAqzQkSlXd+cJ9Qs/dqocaCBJ5PirRbUE3lqZuZ9ZI06e3E2WWJNSi8oprSEfeWSUrozvharwxPHRxJXry5oB556AdmXhhmQxg3nA6KxOztRQfjH92YFstRvoFcsdo/agBpajGQvTot+32F/nvXWJSrKhESmXhMBKfDxTVb2m+/Q0OFO3pXXWxuBVsuPY9dXc3n4vuy0uge7xu/pvASG/l0qTkY9xCQQnVhJEgVvqtGYb9gbkaV4DBfvfVRH0tT2xT/9xaKhAcCYYl+nE3104iSO6dYncEbz5iLG1dJ7jl1FwHAwd2L7/M4svWAKhcUSHn/v4tBSRaCGd/M/lf3tT8WNjHYu8pN78JR8VjjQpZ8RyutU1roW2piQ+g/nNcGBMmC7jM3MkCHiDNZr+5cH6JLaX9pamTbq87uYC4FdlTnwboGveA767Jaa6GKkMu06BE2Scj0Xp1UHPN4RMAKeZENVPlU0UbhMLMBX8+F5L3d+omx2NSLx6tFNH2/E0zI91IbG2NpXrU9jGfc2XexDCFIgVbNFpbkPggnX1Q5hb+Mqr4wIEWlxWvYTI/4=
+  api_key:
+    secure: KHL9MfH+OKv5epK6J4lWcitlsjfNMurknMVR8YZMe57WeLtXZpEI+OOCnn/kIH9i51kkXVNWnl1Mj4CZtWnyzKEblY3CxMoa07ymvFSxk+sngNsHVQ/9Zb8nfw9dBW3rIgzekiCm0Vw+TAv9S6PZ7IaaaIsYjANg5vQ3uHwIplQgwTNkYGVWikzfk450upc3swH+KruUccLP9EylOlNAM3w4qd1v9va8JgxlCjLqEUwAfP+VDCopbHEW8HPqqjwctMaaMJCi9cvtq6ylGX2Am36eFk8yfMLKgf9j88IGVBiBNdUfOOj37rRsAAPzGG/LuKqtHHOwidlDcenQs1JXiODmb9k7IixCCjZ6DAVedWSN4vbsEMUCHQWbBp4/SAsERFMy973zq/NIcrZ8ownyZxpM+PeGuz76rDJ9Q3QanPfgoA6/h+c3pODS52a2qOIF0i9BeZUnM4Ux/y0oCjvLqlJl2erTAgsHXJnd+cJ4/uVTL8fS8/RCTA/Q5VHFPCBsfiE2xXAZ55iyQrewxsZzwrQ+GOeFIMGj5rfqFBqVG61QdR3rJyBuDOB+ir1u8PrP7zK1qNIcQ2l8uCHeTHFl8z1SJm8AN5r9K62hrBEtkPvnbA5a15vpd9Pr4nVo8xQri/DmGcZfT7yKN9uRAWUCfjF5Ki2KBIVrinki/4xaf68=
+  on:
+    tags: true
+    repo: scurker/quilted
