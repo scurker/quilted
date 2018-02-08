@@ -12,7 +12,7 @@
 
 </div>
 
-![Quilted CLI](https://user-images.githubusercontent.com/1062039/35894339-d0ea5cf8-0b77-11e8-8b2c-097b58d15470.png)
+![Quilted Cli](https://user-images.githubusercontent.com/1062039/35949243-213ddf86-0c36-11e8-8fa8-f10ed908beb3.png)
 
 ## Installation
 
