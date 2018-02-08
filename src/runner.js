@@ -45,10 +45,11 @@ export default async function(urlString, options = {}) {
   page.on('request', request => {
     let requestUrl = request.url()
       , req = parse(requestUrl);
+      // console.log({requestUrl})
     requestMap.set(requestUrl, {
       type: request.resourceType(),
       headers: request.headers(),
-      sameOrigin: req.host === url.host,
+      sameOrigin: !req.host ? true : req.host === url.host,
       ...req
     });
   });
@@ -65,6 +66,7 @@ export default async function(urlString, options = {}) {
   try {
     await page.goto(urlString);
   } catch (ex) {
+    await browser.close();
     throw ex;
   }
 
@@ -85,7 +87,7 @@ export default async function(urlString, options = {}) {
   for (const entry of entries) {
     let totalBytes = entry.text.length
       , usedBytes = 0
-      , req = requestMap.get(entry.url);
+      , req = requestMap.get(entry.url) || {};
 
     for (const range of entry.ranges) {
       usedBytes += range.end - range.start;

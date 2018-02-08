@@ -1,4 +1,5 @@
 import yargs from 'yargs';
+import chalk from 'chalk';
 import runner from './runner';
 import stats from './stats';
 
@@ -111,7 +112,11 @@ function parseHeaders(headers) {
     headers = parseHeaders(headers);
   }
 
-  const coverage = await runner(url, { sameOrigin: origin, css: !noCss, js: !noJs, viewport, headers, userAgent });
+  try {
+    const coverage = await runner(url, { sameOrigin: origin, css: !noCss, js: !noJs, viewport, headers, userAgent });
+    console.log(stats(coverage));
+  } catch (err) {
+    console.log(`${chalk.red('Error:')} ${err.message}`);
+  }
 
-  console.log(stats(coverage));
 })();
