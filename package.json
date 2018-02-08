@@ -1,6 +1,6 @@
 {
   "name": "quilted",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A css/js coverage tool for websites.",
   "module": "dist/quilted.es.js",
   "main": "dist/quilted.js",
