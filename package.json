@@ -1,6 +1,6 @@
 {
   "name": "quilted",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A css/js coverage tool for websites.",
   "module": "dist/quilted.es.js",
   "main": "dist/quilted.js",
@@ -10,6 +10,7 @@
     "coverage": "BABEL_ENV=test nyc ava ./test/",
     "coverage:report": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
+    "prepublish": "npm run build",
     "test": "BABEL_ENV=test ava test/*.js",
     "transpile": "rollup -c rollup.config.js"
   },
