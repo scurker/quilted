@@ -84,7 +84,7 @@ function parseHeaders(headers) {
 
 (async function () {
   let [ url ] = _yargs.argv._
-    , { origin, noCss, noJs, viewportHeight, viewportWidth, viewport, cookies, headers, userAgent } = yargs.argv;
+    , { origin, noCss, noJs, viewportHeight, viewportWidth, viewport, headers, userAgent } = yargs.argv;
 
   if (!url) {
     yargs.showHelp();
@@ -111,7 +111,7 @@ function parseHeaders(headers) {
     headers = parseHeaders(headers);
   }
 
-  const coverage = await runner(url, { sameOrigin: origin, css: !noCss, js: !noJs, viewport, cookies, headers, userAgent });
+  const coverage = await runner(url, { sameOrigin: origin, css: !noCss, js: !noJs, viewport, headers, userAgent });
 
   console.log(stats(coverage));
 })();

@@ -1,14 +1,14 @@
 import puppeteer from 'puppeteer';
 import { parse } from 'url';
 
-async function setPageOptions(page, options) {
+export async function setPageOptions(page, options) {
   let { cookies, headers, userAgent, viewport } = options;
 
   if(typeof cookies !== 'undefined') {
     if(!Array.isArray(cookies)) {
       cookies = [cookies];
     }
-    await page.setCookies(...cookies);
+    await page.setCookie(...cookies);
   }
 
   if(typeof headers !== 'undefined') {
@@ -25,15 +25,16 @@ async function setPageOptions(page, options) {
 }
 
 export default async function(urlString, options = {}) {
-  const { args = [], timeout } = options
-      , browser = await puppeteer.launch({ args: Array.isArray(args) ? args : [args], timeout })
-      , page = await browser.newPage()
-      , { coverage } = page
-      , url = parse(urlString);
+  const url = parse(urlString || '');
 
   if(!url || !url.protocol) {
     throw new Error('A valid url is required.');
   }
+
+  const { args = [], timeout } = options
+      , browser = await puppeteer.launch({ args: Array.isArray(args) ? args : [args], timeout })
+      , page = await browser.newPage()
+      , { coverage } = page;
 
   // Set default options
   options = { js: true, css: true, ...options };
@@ -53,7 +54,7 @@ export default async function(urlString, options = {}) {
   });
 
   const pageFinished = new Promise(resolve => {
-    page.on('requestfinished', resolve);
+    page.on('load', resolve);
   });
 
   await Promise.all([
@@ -67,13 +68,12 @@ export default async function(urlString, options = {}) {
     throw ex;
   }
 
-  const [ jsCoverage, cssCoverage ] = await Promise.all([
-    options.js ? coverage.stopJSCoverage() : [],
-    options.css ? coverage.stopCSSCoverage() : []
-  ]);
-
   await pageFinished;
 
+  const [ jsCoverage, cssCoverage ] = await Promise.all([
+    options.js ? coverage.stopJSCoverage() : Promise.resolve([]),
+    options.css ? coverage.stopCSSCoverage() : Promise.resolve([])
+  ]);
 
   let assets = []
     , entries = [ ...jsCoverage, ...cssCoverage ];

@@ -79,7 +79,7 @@ Options:
 |-----------|-------------------|---------|
 | `js`      | Run js coverage.  | `true`  |
 | `css`     | Run css coverage. | `true`  |
-| `origin`  | Only cover requests from the same origin | `false`  |
+| `sameOrigin` | Only cover requests from the same origin | `false` |
 
 ## Puppeteer Supported Options
 
