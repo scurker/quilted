@@ -28,7 +28,7 @@ export default async function(urlString, options = {}) {
   const url = parse(urlString || '');
 
   if(!url || !url.protocol) {
-    throw new Error('A valid url is required.');
+    throw new Error('Url requires a valid protocol and host.');
   }
 
   const { args = [], timeout } = options
@@ -45,7 +45,7 @@ export default async function(urlString, options = {}) {
   page.on('request', request => {
     let requestUrl = request.url()
       , req = parse(requestUrl);
-      // console.log({requestUrl})
+
     requestMap.set(requestUrl, {
       type: request.resourceType(),
       headers: request.headers(),
@@ -54,23 +54,17 @@ export default async function(urlString, options = {}) {
     });
   });
 
-  const pageFinished = new Promise(resolve => {
-    page.on('load', resolve);
-  });
-
   await Promise.all([
     options.js && coverage.startJSCoverage(),
     options.css && coverage.startCSSCoverage()
   ]);
 
   try {
-    await page.goto(urlString);
+    await page.goto(urlString, { waitUntil: 'networkidle0' });
   } catch (ex) {
     await browser.close();
     throw ex;
   }
-
-  await pageFinished;
 
   const [ jsCoverage, cssCoverage ] = await Promise.all([
     options.js ? coverage.stopJSCoverage() : Promise.resolve([]),
