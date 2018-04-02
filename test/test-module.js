@@ -167,6 +167,15 @@ test('should throw an error with invalid urls', async t => {
     await quilted('asdf');
   } catch(ex) {
     t.true(ex instanceof Error);
-    t.is(ex.message, 'A valid url is required.');
+    t.is(ex.message, 'Url requires a valid protocol and host name.');
+  }
+});
+
+test('should throw an error with unresolvable urls', async t => {
+  try {
+    await quilted('http://foo');
+  } catch(ex) {
+    t.true(ex instanceof Error);
+    t.is(ex.message, 'net::ERR_NAME_NOT_RESOLVED');
   }
 });

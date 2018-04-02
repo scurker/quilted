@@ -28,7 +28,7 @@ export default async function(urlString, options = {}) {
   const url = parse(urlString || '');
 
   if(!url || !url.protocol) {
-    throw new Error('Url requires a valid protocol and host.');
+    throw new Error('Url requires a valid protocol and host name.');
   }
 
   const { args = [], timeout } = options
