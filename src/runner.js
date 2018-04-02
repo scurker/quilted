@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import launch from './browser';
 import { parse } from 'url';
 
 export async function setPageOptions(page, options) {
@@ -32,7 +32,7 @@ export default async function(urlString, options = {}) {
   }
 
   const { args = [], timeout } = options
-      , browser = await puppeteer.launch({ args: Array.isArray(args) ? args : [args], timeout })
+      , browser = await launch({ args: Array.isArray(args) ? args : [args], timeout })
       , page = await browser.newPage()
       , { coverage } = page;
 
