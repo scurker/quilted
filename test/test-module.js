@@ -37,7 +37,7 @@ test('should return all coverages', async t => {
   const find = url => findCoverageUrl(url, coverages);
 
   t.is(host, 'localhost:8080');
-  t.is(coveredUrl, 'http://localhost:8080');
+  t.is(coveredUrl, 'http://localhost:8080/');
   t.is(totalBytes, 8469);
   t.is(totalCoverage, 6.647774235446924);
   t.is(totalUsedBytes, 563);
@@ -176,6 +176,16 @@ test('should throw an error with unresolvable urls', async t => {
     await quilted('http://foo');
   } catch(ex) {
     t.true(ex instanceof Error);
-    t.is(ex.message, 'net::ERR_NAME_NOT_RESOLVED');
+    t.is(ex.message, 'net::ERR_NAME_NOT_RESOLVED at http://foo/');
   }
 });
+
+// test('should support multiple urls', async t => {
+//   const coverage = await quilted([url, `${url}/index-multiple.html`], { js: false });
+//   const { coverages, totalBytes, totalCoverage, totalUsedBytes } = coverage;
+
+//   t.is(totalBytes, 86);
+//   t.is(totalCoverage, 100);
+//   t.is(totalUsedBytes, 0);
+//   t.is(coverages.length, 3);
+// });
