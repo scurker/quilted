@@ -41,7 +41,7 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "columnify": "^1.5.4",
-    "pretty-bytes": "^4.0.2",
+    "pretty-bytes": "^5.0.0",
     "puppeteer": "^1.0.0",
     "yargs": "^11.0.0"
   },
