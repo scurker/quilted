@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import launch from './browser';
 import { parse } from 'url';
 
 export async function setPageOptions(page, options) {
@@ -24,15 +24,25 @@ export async function setPageOptions(page, options) {
   }
 }
 
-export default async function(urlString, options = {}) {
-  const url = parse(urlString || '');
-
-  if(!url || !url.protocol) {
-    throw new Error('A valid url is required.');
+export default async function(_urls, options = {}) {
+  let urls;
+  if(Array.isArray(_urls)) {
+    urls = _urls;
+  } else {
+    urls = [_urls];
   }
 
-  const { args = [], timeout } = options
-      , browser = await puppeteer.launch({ args: Array.isArray(args) ? args : [args], timeout })
+  urls = urls.map(url => {
+    let parsedUrl = parse(url);
+    if(!parsedUrl || !parsedUrl.protocol) {
+      throw new Error('Url requires a valid protocol and host name.');
+    }
+    return parsedUrl;
+  });
+
+  const sourceURL = urls[0]
+      , { args = [], timeout } = options
+      , browser = await launch({ args: Array.isArray(args) ? args : [args], timeout })
       , page = await browser.newPage()
       , { coverage } = page;
 
@@ -45,39 +55,35 @@ export default async function(urlString, options = {}) {
   page.on('request', request => {
     let requestUrl = request.url()
       , req = parse(requestUrl);
-      // console.log({requestUrl})
+
     requestMap.set(requestUrl, {
       type: request.resourceType(),
       headers: request.headers(),
-      sameOrigin: !req.host ? true : req.host === url.host,
+      sameOrigin: !req.host ? true : req.host === sourceURL.host,
       ...req
     });
   });
 
-  const pageFinished = new Promise(resolve => {
-    page.on('load', resolve);
-  });
-
   await Promise.all([
-    options.js && coverage.startJSCoverage(),
-    options.css && coverage.startCSSCoverage()
+    options.js && coverage.startJSCoverage({ resetOnNavigation: false }),
+    options.css && coverage.startCSSCoverage({ resetOnNavigation: false })
   ]);
 
   try {
-    await page.goto(urlString);
+    for(let p of urls) {
+      await page.goto(p.href, { waitUntil: ['load', 'networkidle0'] });
+    }
   } catch (ex) {
     await browser.close();
     throw ex;
   }
-
-  await pageFinished;
 
   const [ jsCoverage, cssCoverage ] = await Promise.all([
     options.js ? coverage.stopJSCoverage() : Promise.resolve([]),
     options.css ? coverage.stopCSSCoverage() : Promise.resolve([])
   ]);
 
-  let assets = []
+  let assetsMap = new Map()
     , entries = [ ...jsCoverage, ...cssCoverage ];
 
   if(options.sameOrigin) {
@@ -85,32 +91,35 @@ export default async function(urlString, options = {}) {
   }
 
   for (const entry of entries) {
-    let totalBytes = entry.text.length
-      , usedBytes = 0
-      , req = requestMap.get(entry.url) || {};
+    if(!assetsMap.has(entry.url)) {
+      let totalBytes = entry.text.length
+        , usedBytes = 0
+        , req = requestMap.get(entry.url) || {};
 
-    for (const range of entry.ranges) {
-      usedBytes += range.end - range.start;
+      for (const range of entry.ranges) {
+        usedBytes += range.end - range.start;
+      }
+
+      assetsMap.set(entry.url, {
+        path: req.sameOrigin ? req.path : req.href,
+        type: req.type,
+        totalBytes,
+        usedBytes,
+        unusedBytes: totalBytes - usedBytes,
+        coverage: totalBytes !== usedBytes ? usedBytes / totalBytes * 100 : 100
+      });
     }
-
-    assets.push({
-      path: req.sameOrigin ? req.path : req.href,
-      type: req.type,
-      totalBytes,
-      usedBytes,
-      unusedBytes: totalBytes - usedBytes,
-      coverage: totalBytes !== usedBytes ? usedBytes / totalBytes * 100 : 100
-    });
   }
 
   await browser.close();
 
-  let totalBytes = assets.reduce((totalBytes, assets) => totalBytes + assets.totalBytes, 0)
+  let assets = Array.from(assetsMap.values())
+    , totalBytes = assets.reduce((totalBytes, assets) => totalBytes + assets.totalBytes, 0)
     , totalUsedBytes = assets.reduce((totalUsedBytes, assets) => totalUsedBytes + assets.usedBytes, 0);
 
   return {
-    url: urlString,
-    host: parse(url).host,
+    url: sourceURL.href,
+    host: sourceURL.host,
     totalBytes,
     totalUsedBytes,
     totalCoverage: totalUsedBytes / totalBytes * 100,
