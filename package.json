@@ -40,7 +40,7 @@
     "js code coverage"
   ],
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "columnify": "^1.5.4",
     "pretty-bytes": "^5.1.0",
     "puppeteer": "^1.6.0",
